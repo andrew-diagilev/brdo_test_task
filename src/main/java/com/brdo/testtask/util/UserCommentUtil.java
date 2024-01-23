@@ -22,7 +22,7 @@ public class UserCommentUtil {
                 .collect(Collectors.toList());
     }
 
-    public static void setCurrentTimeAsUpdatedAt(List<JsonUserComment> comments) {
+    public static void setCurrentTime(List<JsonUserComment> comments) {
         comments.forEach(comment -> {
             comment.setUpdatedAt(LocalDateTime.now());
         });

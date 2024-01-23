@@ -5,7 +5,7 @@ import com.brdo.testtask.model.UserComment;
 import com.brdo.testtask.service.UserCommentService;
 import com.brdo.testtask.util.UserCommentMapper;
 import com.brdo.testtask.util.UserCommentUtil;
-import com.brdo.testtask.util.WebClient;
+import com.brdo.testtask.util.DataFetcher;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,12 +14,12 @@ import java.util.List;
 
 @SpringBootApplication
 public class TesttaskApplication {
-    private final WebClient webClient;
+    private final DataFetcher dataFetcher;
 
     private final UserCommentService userCommentService;
 
-    public TesttaskApplication(WebClient webClient, UserCommentService userCommentService) {
-        this.webClient = webClient;
+    public TesttaskApplication(DataFetcher dataFetcher, UserCommentService userCommentService) {
+        this.dataFetcher = dataFetcher;
         this.userCommentService = userCommentService;
     }
 
@@ -28,9 +28,9 @@ public class TesttaskApplication {
     }
     @PostConstruct
     public void init() {
-        List<JsonUserComment> jsonUserComments = webClient.getData();
+        List<JsonUserComment> jsonUserComments = dataFetcher.fetchData();
         UserCommentUtil.capitalizeUsernames(jsonUserComments);
-        UserCommentUtil.setCurrentTimeAsUpdatedAt(jsonUserComments);
+        UserCommentUtil.setCurrentTime(jsonUserComments);
         List<UserComment> userComments = UserCommentMapper.INSTANCE.jsonCommentsToUserComments(jsonUserComments);
         userCommentService.saveAll(userComments);
     }

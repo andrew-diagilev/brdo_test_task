@@ -14,7 +14,6 @@ public interface UserCommentMapper {
     UserCommentMapper INSTANCE = Mappers.getMapper(UserCommentMapper.class);
 
     @Mapping(source = "user.username", target = "username")
-    @Mapping(source = "updatedAt", target = "updatedAt", dateFormat = "dd-MM-yyyy HH:mm:ss")
     UserComment jsonCommentToUserComment(JsonUserComment jsonComment);
     List<UserComment> jsonCommentsToUserComments(List<JsonUserComment> jsonComments);
 }
